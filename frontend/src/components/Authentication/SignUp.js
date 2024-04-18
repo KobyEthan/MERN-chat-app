@@ -3,6 +3,7 @@ import { VStack } from "@chakra-ui/layout";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { Button } from "@chakra-ui/button";
+import { useToast } from "@chakra-ui/react";
 
 const SignUp = () => {
   const [name, setName] = useState();
@@ -11,10 +12,32 @@ const SignUp = () => {
   const [show, setShow] = useState(false);
   const [confirm, setConfirm] = useState();
   const [pic, setPic] = useState();
+  const [leading, setLoading] = useState(false);
+  const toast = useToast();
 
   const handleclick = () => setShow(!show);
 
-  const postDetails = (pics) => {};
+  const postDetails = (pics) => {
+    setLoading(true);
+    if (pics === undefined) {
+      toast({
+        title: "Please select an Image",
+        status: "warning",
+        duration: 5000,
+        isCloseable: true,
+        position: "bottom",
+      });
+      return;
+    }
+
+    if (pics.type === "image/jpeg" || pics.type === "image/png") {
+      const data = new FormData();
+      data.append("file", pics);
+      data.append("upload_preset", "chat-app");
+      data.append("cloud_name", "dkbcyluax");
+      fetch(""); //left off here
+    }
+  };
 
   const submitHandler = () => {};
 
