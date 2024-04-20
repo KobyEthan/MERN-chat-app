@@ -20,11 +20,10 @@ const chatModel = mongoose.Schema(
     },
   },
   {
-    //make timestamp everytime a chat is created
     timestamps: true,
   }
 );
 
 const Chat = mongoose.model("Chat", chatModel);
 
-module.exports = { Chat };
+module.exports = Chat;

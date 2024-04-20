@@ -10,6 +10,7 @@ const protect = asyncHandler(async (req, res, next) => {
     req.headers.authorization.startsWith("Bearer")
   ) {
     try {
+      // splits the "Bearer" from the token
       token = req.headers.authorization.split(" ")[1];
 
       // Decodes token id
