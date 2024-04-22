@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import Login from "../components/Authentication/Login";
 import SignUp from "../components/Authentication/SignUp";
-import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router";
 
 const Home = () => {
   const history = useHistory();

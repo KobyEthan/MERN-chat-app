@@ -1,9 +1,19 @@
-import { Button, Tooltip, Text, Menu, MenuButton } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Tooltip,
+  Text,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  MenuDivider,
+} from "@chakra-ui/react";
 import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
-import { Box } from "@chakra-ui/layout";
 import React, { useState } from "react";
 import { Avatar } from "@chakra-ui/avatar";
-import { ChatState } from "../../context/ChatProvider";
+import { ChatState } from "../../Context/ChatProvider";
+import ProfileModal from "./ProfileModal";
 
 const SideBar = () => {
   const [search, setSearch] = useState("");
@@ -47,8 +57,20 @@ const SideBar = () => {
           </Menu>
           <Menu>
             <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-              <Avatar size="sm" cursor="pointer" name="" />
+              <Avatar
+                size="sm"
+                cursor="pointer"
+                name={user.name}
+                src={user.pic}
+              />
             </MenuButton>
+            <MenuList>
+              <ProfileModal>
+                <MenuItem>My Profile</MenuItem>
+              </ProfileModal>
+              <MenuDivider />
+              <MenuItem>Logout</MenuItem>
+            </MenuList>
           </Menu>
         </div>
       </Box>
