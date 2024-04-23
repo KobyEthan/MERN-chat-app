@@ -4,4 +4,18 @@
   display: flex;
   min-height: 100vh;
   background-image: -webkit-linear-gradient(65deg, rgb(70, 128, 255), white);
+  background-size: cover;
+  background-position: center;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: (136, 136, 136, 0.281);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

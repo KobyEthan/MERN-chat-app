@@ -67,7 +67,6 @@ const SignUp = () => {
     }
   };
 
-  // Submits all of the user information to the DB
   const submitHandler = async () => {
     setLoading(true);
     if (!name || !email || !password || !confirm) {
@@ -127,7 +126,6 @@ const SignUp = () => {
     }
   };
 
-  // The sign up form
   return (
     <VStack spacing="5px">
       <FormControl id="name" isRequired>
