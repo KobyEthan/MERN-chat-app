@@ -24,8 +24,8 @@ const MyChats = () => {
       setChats(data);
     } catch (error) {
       toast({
-        title: "Error getting your chats",
-        description: "Failed to load the chats",
+        title: "Error Occurred.",
+        description: "Failed to get chats. Err msg: " + error.message,
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -55,7 +55,7 @@ const MyChats = () => {
         px={3}
         fontSize={{ base: "28px", md: "30px" }}
         fontFamily={"Work sans"}
-        display="flex"
+        display={"flex"}
         width="100%"
         justifyContent={"space-between"}
         alignItems={"center"}

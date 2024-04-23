@@ -65,7 +65,6 @@ const SideBar = () => {
       };
 
       const { data } = await axios.get(`/api/user?search=${search}`, config);
-
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
@@ -92,7 +91,7 @@ const SideBar = () => {
         },
       };
 
-      const { data } = await axios.post("api/chat", { userId }, config);
+      const { data } = await axios.post("/api/chat", { userId }, config);
 
       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
 
@@ -128,13 +127,13 @@ const SideBar = () => {
           placement="bottom-end"
         >
           <Button variant="ghost" onClick={onOpen}>
-            <i class="fas fa-search"></i>
+            <i className="fas fa-search"></i>
             <Text d={{ base: "none", md: "flex" }} px="4">
               Search Users
             </Text>
           </Button>
         </Tooltip>
-        <Text font-size="4xl" fontfamily="Work sans">
+        <Text fontSize="4xl" fontFamily="Work sans">
           Chat-App
         </Text>
         <div>
@@ -190,7 +189,7 @@ const SideBar = () => {
                 />
               ))
             )}
-            {loadingChat && <Spinner ml="auto" d="flex" />}
+            {loadingChat && <Spinner ml="auto" display="flex" />}
           </DrawerBody>
         </DrawerContent>
       </Drawer>
