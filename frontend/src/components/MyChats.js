@@ -16,19 +16,18 @@ const MyChats = ({ fetchAgain }) => {
   const fetchChats = async () => {
     try {
       const config = {
-        heaers: {
+        headers: {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.get("api/chat", config);
-      console.log(data);
+      const { data } = await axios.get("/api/chat", config);
       setChats(data);
     } catch (error) {
       toast({
         title: "Error Occurred.",
         description: "Failed to get chats. Err msg: " + error.message,
         status: "error",
-        duration: 3000,
+        duration: 4000,
         isClosable: true,
         position: "bottom-left",
       });
