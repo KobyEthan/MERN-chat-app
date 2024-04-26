@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { VStack } from "@chakra-ui/layout";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
@@ -53,7 +53,7 @@ const Login = () => {
       });
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
-      history.push("/chats");
+      window.location.reload();
     } catch (error) {
       toast({
         title: "An error occured during login",
@@ -66,6 +66,13 @@ const Login = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const storedUserInfo = localStorage.getItem("userInfo");
+    if (storedUserInfo) {
+      history.push("/chats");
+    }
+  }, [history]);
 
   return (
     <VStack spacing="5px">

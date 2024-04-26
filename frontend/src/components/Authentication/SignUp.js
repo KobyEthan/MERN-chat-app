@@ -104,7 +104,7 @@ const SignUp = () => {
       );
       toast({
         title: "Registration Successful",
-        status: "succcess",
+        status: "success",
         duration: 3000,
         isClosable: true,
         position: "top",
@@ -116,7 +116,7 @@ const SignUp = () => {
     } catch (error) {
       toast({
         title: "An error occured during registration",
-        description: error.response.data.message,
+        description: error.message,
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -176,7 +176,7 @@ const SignUp = () => {
         </InputGroup>
       </FormControl>
 
-      <FormControl id="pic">
+      <FormControl id="profilePic">
         <FormLabel>Profile Picture</FormLabel>
         <Input
           type="file"
