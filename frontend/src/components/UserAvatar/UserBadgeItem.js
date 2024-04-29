@@ -16,6 +16,7 @@ const UserBadgeItem = ({ user, handleFunction }) => {
       m={1}
       mb={2}
       onClick={handleFunction}
+      fontFamily={"Roboto"}
     >
       {user.name}
       <CloseIcon pl={1} />

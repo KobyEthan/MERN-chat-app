@@ -29,7 +29,7 @@ const ProfileModal = ({ user, children }) => {
         <ModalContent height={"410px"}>
           <ModalHeader
             fontSize={"40px"}
-            fontFamily={"Work sans"}
+            fontFamily={"Roboto"}
             display={"flex"}
             justifyContent={"center"}
           >
@@ -48,10 +48,7 @@ const ProfileModal = ({ user, children }) => {
               src={user.pic}
               alt={user.name}
             />
-            <Text
-              fontSize={{ base: "28px", md: "30px" }}
-              fontFamily={"Work sans"}
-            >
+            <Text fontSize={{ base: "28px", md: "30px" }} fontFamily={"Roboto"}>
               Email: {user.email}
             </Text>
           </ModalBody>

@@ -27,6 +27,7 @@ import { useDisclosure } from "@chakra-ui/hooks";
 import axios from "axios";
 import ChatLoading from "../ChatLoading";
 import UserListItem from "../UserAvatar/UserListItem";
+import { getSender } from "../../config/ChatLogics";
 
 const SideBar = () => {
   const [search, setSearch] = useState("");
@@ -34,7 +35,14 @@ const SideBar = () => {
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState();
 
-  const { user, setSelectedChat, chats, setChats } = ChatState();
+  const {
+    user,
+    setSelectedChat,
+    chats,
+    setChats,
+    notification,
+    setNotification,
+  } = ChatState();
   const history = useHistory();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
@@ -133,7 +141,7 @@ const SideBar = () => {
             </Text>
           </Button>
         </Tooltip>
-        <Text fontSize="4xl" fontFamily="Work sans">
+        <Text fontSize="4xl" fontFamily="Roboto">
           Chat-App
         </Text>
         <div>
@@ -141,7 +149,22 @@ const SideBar = () => {
             <MenuButton p={1}>
               <BellIcon fontSize={"2xl"} margin={1} />
             </MenuButton>
-            {/* <MenuList></MenuList> */}
+            <MenuList pl={5}>
+              {!notification.length && "No New Messages"}
+              {notification.map((notif) => (
+                <MenuItem
+                  key={notif._id}
+                  onClick={() => {
+                    setSelectedChat(notif.chat);
+                    setNotification(notification.filter((n) => n !== notif));
+                  }}
+                >
+                  {notif.chat.isGroupchat
+                    ? `New Message in ${notification.chat.chatName}`
+                    : `New Message from ${getSender(user, notif.chat.users)}`}
+                </MenuItem>
+              ))}
+            </MenuList>
           </Menu>
           <Menu>
             <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
