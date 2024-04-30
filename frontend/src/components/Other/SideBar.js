@@ -124,10 +124,10 @@ const SideBar = () => {
         display={"flex"}
         justifyContent="space-between"
         alignItems="center"
-        bg="white"
+        className="box"
         w="100%"
-        p="5px 10px 5px 10px"
-        borderWidth="5px"
+        p="5px"
+        borderWidth="0px"
       >
         <Tooltip
           label="Search Users to chat with"
@@ -135,8 +135,8 @@ const SideBar = () => {
           placement="bottom-end"
         >
           <Button variant="ghost" onClick={onOpen}>
-            <i className="fas fa-search"></i>
-            <Text d={{ base: "none", md: "flex" }} px="4">
+            <i className="fas fa-search" style={{ color: "white" }}></i>
+            <Text d={{ base: "none", md: "flex" }} color={"white"} px="4">
               Search Users
             </Text>
           </Button>
@@ -149,7 +149,7 @@ const SideBar = () => {
             <MenuButton p={1}>
               <BellIcon fontSize={"2xl"} margin={1} />
             </MenuButton>
-            <MenuList pl={5}>
+            <MenuList style={{ color: "black" }} pl={5}>
               {!notification.length && "No New Messages"}
               {notification.map((notif) => (
                 <MenuItem
@@ -177,10 +177,12 @@ const SideBar = () => {
             </MenuButton>
             <MenuList>
               <ProfileModal user={user}>
-                <MenuItem>My Profile</MenuItem>
+                <MenuItem color="black">My Profile</MenuItem>
               </ProfileModal>
               <MenuDivider />
-              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              <MenuItem color="red" onClick={handleLogout}>
+                Logout
+              </MenuItem>
             </MenuList>
           </Menu>
         </div>
@@ -189,7 +191,7 @@ const SideBar = () => {
       <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerHeader borderBottomWidth={"1px"}>Search User</DrawerHeader>
+          <DrawerHeader borderBottomWidth={"1px"}>Search Users</DrawerHeader>
 
           <DrawerBody>
             <Box diasplay="flex" pb={2}>

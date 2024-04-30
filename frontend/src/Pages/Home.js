@@ -26,24 +26,36 @@ const Home = () => {
   return (
     <Container maxW="xl" centerContent>
       <Box
-        d="flex"
-        align="center"
+        display="flex"
+        justifyContent="center"
         boxShadow="lg"
         p={2}
         w="100%"
-        m="45px 0 15px"
+        m="100px 0 15px"
         rounded="md"
-        bg="white"
+        className="box"
       >
         <Text fontSize="3xl" fontFamily="roboto">
           Chat-App
         </Text>
       </Box>
-      <Box w="100%" bg="white" p={4} rounded="md">
-        <Tabs variant="enclosed">
+      <Box w="100%" className="box" p={4} rounded="md" boxShadow="lg">
+        <Tabs variant="soft-rounded">
           <TabList mb="1em">
-            <Tab width="50%">Login</Tab>
-            <Tab width="50%">Sign up</Tab>
+            <Tab
+              _selected={{ color: "white", bg: "blue.500" }}
+              color="white"
+              width="50%"
+            >
+              Login
+            </Tab>
+            <Tab
+              _selected={{ color: "white", bg: "blue.500" }}
+              color="white"
+              width="50%"
+            >
+              Sign up
+            </Tab>
           </TabList>
           <TabPanels>
             <TabPanel>

@@ -45,7 +45,7 @@ const ProfileModal = ({ user, children }) => {
             <Image
               borderRadius={"full"}
               boxSize={"150px"}
-              src={user.pic}
+              src={user.profilePic}
               alt={user.name}
             />
             <Text fontSize={{ base: "28px", md: "30px" }} fontFamily={"Roboto"}>

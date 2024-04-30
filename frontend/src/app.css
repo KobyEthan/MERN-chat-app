@@ -1,11 +1,31 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
+:root {
+  --gradient: linear-gradient(60deg, rgb(0, 119, 255), rgb(119, 205, 255));
+}
+
 .App {
   display: flex;
   min-height: 100vh;
-  background-image: -webkit-linear-gradient(65deg, rgb(70, 128, 255), white);
+  background-image: var(--gradient);
   background-size: cover;
   background-position: center;
+  background-size: 300%;
+  animation: bg-animation 10s infinite alternate;
+}
+
+@keyframes bg-animation {
+  0% {
+    background-position: left;
+  }
+  100% {
+    background-position: right;
+  }
+}
+
+.box {
+  background-color: #2e2e2e;
+  color: white;
 }
 
 ::-webkit-scrollbar {

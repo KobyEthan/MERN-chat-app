@@ -6,6 +6,7 @@ import { Button } from "@chakra-ui/button";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { ChatState } from "../../Context/ChatProvider";
 
 const Login = () => {
   const [email, setEmail] = useState();
@@ -15,6 +16,7 @@ const Login = () => {
 
   const toast = useToast();
   const history = useHistory();
+  const { setUser } = ChatState();
 
   const handleclick = () => setShow(!show);
 
@@ -51,9 +53,10 @@ const Login = () => {
         isCloseable: true,
         position: "top",
       });
+      setUser(data);
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
-      window.location.reload();
+      history.push("/chats");
     } catch (error) {
       toast({
         title: "An error occured during login",
@@ -116,7 +119,7 @@ const Login = () => {
         colorScheme="red"
         width="100%"
         onClick={() => {
-          setEmail("guest@guest.com");
+          setEmail("guest@example.com");
           setPassword("123456");
         }}
       >
