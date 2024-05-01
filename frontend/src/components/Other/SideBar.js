@@ -147,7 +147,7 @@ const SideBar = () => {
         <div>
           <Menu>
             <MenuButton p={1}>
-              <BellIcon fontSize={"2xl"} margin={1} />
+              <BellIcon fontSize={"2xl"} m={1} />
             </MenuButton>
             <MenuList style={{ color: "black" }} pl={5}>
               {!notification.length && "No New Messages"}
