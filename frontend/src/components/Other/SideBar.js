@@ -34,15 +34,15 @@ const SideBar = () => {
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState();
-  const [notif, setNotif] = useState();
+  const [loadingNotifications, setLoadingNotifications] = useState();
 
   const {
     user,
     setSelectedChat,
     chats,
     setChats,
-    notification,
-    setNotification,
+    notifications,
+    setNotifications,
   } = ChatState();
   const history = useHistory();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -119,6 +119,35 @@ const SideBar = () => {
     }
   }
 
+  const fetchNotifications = async () => {
+    try {
+      setLoadingNotifications(true);
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+
+      const response = await axios.get("/api/notification", config);
+      const notifications = response.data;
+
+      setNotifications(notifications);
+      setLoadingNotifications(false);
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+      setLoadingNotifications(false);
+      toast({
+        title: "Error Occurred!",
+        description: "Failed to load notifications",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+  };
+
   return (
     <>
       <Box
@@ -151,24 +180,24 @@ const SideBar = () => {
               <BellIcon fontSize={"2xl"} m={1} />
             </MenuButton>
             <MenuList style={{ color: "black" }} pl={5}>
-              {!notification.length && "No New Messages"}
-              {notification.map((notif) => (
+              {!notifications.length && "No New Messages"}
+              {notifications.map((notif) => (
                 <MenuItem
                   key={notif._id}
                   onClick={() => {
                     setSelectedChat(notif.chat);
-                    setNotification(notification.filter((n) => n !== notif));
+                    setNotifications(notifications.filter((n) => n !== notif));
                   }}
                 >
                   {notif.chat.isGroupchat
-                    ? `New Message in ${notification.chat.chatName}`
+                    ? `New Message in ${notifications.chat.chatName}`
                     : `New Message from ${getSender(user, notif.chat.users)}`}
                 </MenuItem>
               ))}
             </MenuList>
           </Menu>
           <Menu>
-            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+            <MenuButton rightIcon={<ChevronDownIcon />}>
               <Avatar
                 size="sm"
                 cursor="pointer"
