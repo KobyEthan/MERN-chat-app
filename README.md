@@ -1,3 +1,6 @@
+## Please Note: 
+This Project is not done, I am working on getting the notificatoins to persist in the database. If you'd like to see the project so far, here are the steps:
+
 ## Run Locally
 
 Clone the project
