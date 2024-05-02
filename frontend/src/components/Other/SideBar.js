@@ -34,6 +34,7 @@ const SideBar = () => {
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState();
+  const [notif, setNotif] = useState();
 
   const {
     user,
