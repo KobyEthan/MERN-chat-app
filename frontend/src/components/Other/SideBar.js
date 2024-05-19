@@ -121,7 +121,7 @@ const SideBar = () => {
 
   const fetchNotifications = async () => {
     try {
-      setLoadingNotifications(true);
+      loadingNotifications(true);
 
       const config = {
         headers: {
@@ -189,8 +189,8 @@ const SideBar = () => {
                     setNotifications(notifications.filter((n) => n !== notif));
                   }}
                 >
-                  {notif.chat.isGroupchat
-                    ? `New Message in ${notifications.chat.chatName}`
+                  {notif.chat.isGroupChat
+                    ? `New Message in ${notif.chat.chatName}`
                     : `New Message from ${getSender(user, notif.chat.users)}`}
                 </MenuItem>
               ))}

@@ -144,7 +144,7 @@ const GroupChatModal = ({ children }) => {
             display={"flex"}
             justifyContent={"center"}
           >
-            Create Group Chat
+            Create New Group Chat
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody display={"flex"} flexDir={"column"} alignItems={"center"}>
