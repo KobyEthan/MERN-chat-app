@@ -18,7 +18,7 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar } from "@chakra-ui/avatar";
 import { ChatState } from "../../Context/ChatProvider";
 import ProfileModal from "./ProfileModal";
@@ -28,13 +28,15 @@ import axios from "axios";
 import ChatLoading from "../ChatLoading";
 import UserListItem from "../UserAvatar/UserListItem";
 import { getSender } from "../../config/ChatLogics";
+import io from "socket.io-client";
+const ENDPOINT = "http://localhost:5000";
+var socket;
 
 const SideBar = () => {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState();
-  const [loadingNotifications, setLoadingNotifications] = useState();
 
   const {
     user,
@@ -47,6 +49,18 @@ const SideBar = () => {
   const history = useHistory();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
+
+  useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.emit("setup", user);
+    socket.on("notification received", (newNotification) => {
+      setNotifications([newNotification, ...notifications]);
+    });
+
+    return () => {
+      socket.off("notification received");
+    };
+  }, [notifications]);
 
   function handleLogout() {
     localStorage.removeItem("userInfo");
@@ -121,22 +135,16 @@ const SideBar = () => {
 
   const fetchNotifications = async () => {
     try {
-      loadingNotifications(true);
-
       const config = {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
       };
 
-      const response = await axios.get("/api/notification", config);
-      const notifications = response.data;
-
-      setNotifications(notifications);
-      setLoadingNotifications(false);
+      const { data } = await axios.get("/api/notification", config);
+      setNotifications(data);
     } catch (error) {
       console.error("Error fetching notifications:", error);
-      setLoadingNotifications(false);
       toast({
         title: "Error Occurred!",
         description: "Failed to load notifications",
@@ -147,6 +155,10 @@ const SideBar = () => {
       });
     }
   };
+
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
 
   return (
     <>
