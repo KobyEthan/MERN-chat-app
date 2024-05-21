@@ -16,8 +16,6 @@ const sendNotification = asyncHandler(async (req, res) => {
     read: false,
   };
 
-  // console.log(newNotification);
-
   try {
     let notification = await Notification.create(newNotification);
 

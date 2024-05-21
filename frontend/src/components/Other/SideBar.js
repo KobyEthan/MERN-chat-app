@@ -60,7 +60,8 @@ const SideBar = () => {
     return () => {
       socket.off("notification received");
     };
-  }, [notifications]);
+    // eslint-disable-next-line
+  }, [user]);
 
   function handleLogout() {
     localStorage.removeItem("userInfo");
@@ -147,7 +148,7 @@ const SideBar = () => {
       console.error("Error fetching notifications:", error);
       toast({
         title: "Error Occurred!",
-        description: "Failed to load notifications",
+        description: "Failed to fetch notifications",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -158,6 +159,7 @@ const SideBar = () => {
 
   useEffect(() => {
     fetchNotifications();
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -178,7 +180,7 @@ const SideBar = () => {
         >
           <Button variant="ghost" onClick={onOpen}>
             <i className="fas fa-search" style={{ color: "white" }}></i>
-            <Text d={{ base: "none", md: "flex" }} color={"white"} px="4">
+            <Text display={{ base: "none", md: "flex" }} color={"white"} px="4">
               Search Users
             </Text>
           </Button>
