@@ -55,15 +55,21 @@ const SideBar = () => {
     socket = io(ENDPOINT);
     socket.emit("setup", user);
 
-    socket.on("notification received", (newNotification) => {
-      setNotifications((prevNotifications) => [
-        newNotification,
-        ...prevNotifications,
-      ]);
+    socket.on("message received", (newMessage) => {
+      if (newMessage.sender._id !== user._id) {
+        setNotifications((prevNotifications) => [
+          {
+            sender: newMessage.sender,
+            message: newMessage._id,
+            chat: newMessage.chat,
+          },
+          ...prevNotifications,
+        ]);
+      }
     });
 
     return () => {
-      socket.off("notification received");
+      socket.off("message received");
     };
     // eslint-disable-next-line
   }, [user]);
@@ -166,10 +172,33 @@ const SideBar = () => {
     }
   };
 
+  const markAsRead = async (notificationId) => {
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+
+      await axios.put("/api/notification/read", { notificationId }, config);
+      setNotifications((prev) => prev.filter((n) => n._id !== notificationId));
+    } catch (error) {
+      console.error("Error marking notification as read:", error);
+      toast({
+        title: "Error Occurred!",
+        description: "Failed to mark notification as read",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }
+  };
+
   const handleNotificationClick = async (notif) => {
     setSelectedChat(notif.chat);
     setNotifications(notifications.filter((n) => n !== notif));
-    // Mark notification as read (Optional: Update this in the backend if needed)
+    await markAsRead(notif._id);
   };
 
   return (
@@ -195,7 +224,7 @@ const SideBar = () => {
           </Button>
         </Tooltip>
         <Text fontSize="4xl" fontFamily="Roboto">
-          Chat-App
+          Chat App
         </Text>
         <div>
           <Menu>

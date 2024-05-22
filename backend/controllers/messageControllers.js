@@ -36,6 +36,7 @@ const sendMessage = asyncHandler(async (req, res) => {
       .filter((user) => user._id.toString() !== req.user._id.toString())
       .map((user) => ({
         sender: req.user._id,
+        user: user._id,
         message: message._id,
         read: false,
       }));

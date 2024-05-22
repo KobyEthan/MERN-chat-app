@@ -1,6 +1,5 @@
 const asyncHandler = require("express-async-handler");
 const Notification = require("../models/notificationModel");
-const Message = require("../models/messageModel");
 
 const sendNotification = asyncHandler(async (req, res) => {
   const { messageId } = req.body;
@@ -21,13 +20,6 @@ const sendNotification = asyncHandler(async (req, res) => {
 
     notification = await notification.populate("sender", "name");
     notification = await notification.populate("message", "content");
-
-    // const message = await Message.findById(req.body.messageId);
-
-    // const response = {
-    //   notification,
-    //   message: message ? message.toObject() : null,
-    // };
 
     res.json(response);
   } catch (error) {
@@ -51,4 +43,20 @@ const allNotifications = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { sendNotification, allNotifications };
+const markAsRead = asyncHandler(async (req, res) => {
+  try {
+    const { notificationId } = req.body;
+
+    if (!notificationId) {
+      return res.status(400).json({ message: "Notification ID is required" });
+    }
+
+    await Notification.findByIdAndUpdate(notificationId, { read: true });
+    res.json({ message: "Notification marked as read" });
+  } catch (error) {
+    res.status(400);
+    throw new Error(error.message);
+  }
+});
+
+module.exports = { sendNotification, allNotifications, markAsRead };
