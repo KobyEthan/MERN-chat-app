@@ -29,14 +29,15 @@ import ChatLoading from "../ChatLoading";
 import UserListItem from "../UserAvatar/UserListItem";
 import { getSender } from "../../config/ChatLogics";
 import io from "socket.io-client";
+
 const ENDPOINT = "http://localhost:5000";
-var socket;
+let socket;
 
 const SideBar = () => {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [loadingChat, setLoadingChat] = useState();
+  const [loadingChat, setLoadingChat] = useState(false);
 
   const {
     user,
@@ -53,8 +54,12 @@ const SideBar = () => {
   useEffect(() => {
     socket = io(ENDPOINT);
     socket.emit("setup", user);
+
     socket.on("notification received", (newNotification) => {
-      setNotifications([newNotification, ...notifications]);
+      setNotifications((prevNotifications) => [
+        newNotification,
+        ...prevNotifications,
+      ]);
     });
 
     return () => {
@@ -63,18 +68,23 @@ const SideBar = () => {
     // eslint-disable-next-line
   }, [user]);
 
-  function handleLogout() {
+  useEffect(() => {
+    fetchNotifications();
+    // eslint-disable-next-line
+  }, []);
+
+  const handleLogout = () => {
     localStorage.removeItem("userInfo");
     history.push("/");
-  }
+  };
 
-  async function handleSearch() {
+  const handleSearch = async () => {
     if (!search) {
       toast({
         title: "Please fill this field",
         status: "warning",
         duration: 3000,
-        isCloseable: true,
+        isClosable: true,
         position: "top-left",
       });
       return;
@@ -93,7 +103,7 @@ const SideBar = () => {
       setSearchResult(data);
     } catch (error) {
       toast({
-        title: "An error occured during Searching",
+        title: "An error occurred during searching",
         description: "Failed to load search results",
         status: "error",
         duration: 3000,
@@ -101,12 +111,11 @@ const SideBar = () => {
         position: "bottom-left",
       });
     }
-  }
+  };
 
-  async function accessChat(userId) {
+  const accessChat = async (userId) => {
     try {
       setLoadingChat(true);
-      setLoading(true);
 
       const config = {
         headers: {
@@ -132,7 +141,7 @@ const SideBar = () => {
         position: "bottom-left",
       });
     }
-  }
+  };
 
   const fetchNotifications = async () => {
     try {
@@ -157,10 +166,11 @@ const SideBar = () => {
     }
   };
 
-  useEffect(() => {
-    fetchNotifications();
-    // eslint-disable-next-line
-  }, []);
+  const handleNotificationClick = async (notif) => {
+    setSelectedChat(notif.chat);
+    setNotifications(notifications.filter((n) => n !== notif));
+    // Mark notification as read (Optional: Update this in the backend if needed)
+  };
 
   return (
     <>
@@ -168,7 +178,6 @@ const SideBar = () => {
         display={"flex"}
         justifyContent="space-between"
         alignItems="center"
-        className="box"
         w="100%"
         p="5px"
         borderWidth="0px"
@@ -198,10 +207,7 @@ const SideBar = () => {
               {notifications.map((notif) => (
                 <MenuItem
                   key={notif._id}
-                  onClick={() => {
-                    setSelectedChat(notif.chat);
-                    setNotifications(notifications.filter((n) => n !== notif));
-                  }}
+                  onClick={() => handleNotificationClick(notif)}
                 >
                   {notif.chat.isGroupChat
                     ? `New Message in ${notif.chat.chatName}`
@@ -238,7 +244,7 @@ const SideBar = () => {
           <DrawerHeader borderBottomWidth={"1px"}>Search Users</DrawerHeader>
 
           <DrawerBody>
-            <Box diasplay="flex" pb={2}>
+            <Box display="flex" pb={2}>
               <Input
                 placeholder="Search by name or email"
                 mr={2}

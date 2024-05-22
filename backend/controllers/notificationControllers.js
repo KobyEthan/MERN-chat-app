@@ -22,12 +22,12 @@ const sendNotification = asyncHandler(async (req, res) => {
     notification = await notification.populate("sender", "name");
     notification = await notification.populate("message", "content");
 
-    const message = await Message.findById(req.body.messageId);
+    // const message = await Message.findById(req.body.messageId);
 
-    const response = {
-      notification,
-      message: message ? message.toObject() : null,
-    };
+    // const response = {
+    //   notification,
+    //   message: message ? message.toObject() : null,
+    // };
 
     res.json(response);
   } catch (error) {
@@ -39,7 +39,7 @@ const sendNotification = asyncHandler(async (req, res) => {
 const allNotifications = asyncHandler(async (req, res) => {
   try {
     const notification = await Notification.find({
-      message: req.params.messageId,
+      user: req.user._id,
     })
       .populate("sender", "name")
       .populate("message");
