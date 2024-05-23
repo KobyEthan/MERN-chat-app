@@ -27,7 +27,6 @@ import { useDisclosure } from "@chakra-ui/hooks";
 import axios from "axios";
 import ChatLoading from "../ChatLoading";
 import UserListItem from "../UserAvatar/UserListItem";
-import { getSender } from "../../config/ChatLogics";
 import io from "socket.io-client";
 
 const ENDPOINT = "http://localhost:5000";
@@ -238,9 +237,10 @@ const SideBar = () => {
                   key={notif._id}
                   onClick={() => handleNotificationClick(notif)}
                 >
-                  {notif.chat.isGroupChat
-                    ? `New Message in ${notif.chat.chatName}`
-                    : `New Message from ${getSender(user, notif.chat.users)}`}
+                  {console.log(notif.message.chat)}
+                  {notif.message.chat.isGroupChat
+                    ? `New Message in ${notif.message.chat.chatName}`
+                    : `New Message from ${notif.sender.name}`}
                 </MenuItem>
               ))}
             </MenuList>

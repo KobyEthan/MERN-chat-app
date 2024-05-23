@@ -5,6 +5,7 @@ const notificationModel = mongoose.Schema(
     message: { type: mongoose.Schema.Types.ObjectId, ref: "Message" },
     sender: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // The recipient of the notification
+    chat: { type: mongoose.Schema.Types.ObjectId, ref: "Chat" },
     read: { type: Boolean, default: false },
   },
   {

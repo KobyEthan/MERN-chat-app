@@ -38,6 +38,7 @@ const sendMessage = asyncHandler(async (req, res) => {
         sender: req.user._id,
         user: user._id,
         message: message._id,
+        chat: chat,
         read: false,
       }));
 

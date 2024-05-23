@@ -2,16 +2,18 @@ const asyncHandler = require("express-async-handler");
 const Notification = require("../models/notificationModel");
 
 const sendNotification = asyncHandler(async (req, res) => {
-  const { messageId } = req.body;
+  const { messageId, chatId } = req.body;
 
-  if (!messageId) {
-    console.log("Couldn't get message");
+  if (!messageId || !chatId) {
+    console.log("Couldn't get message or chat");
     return res.sendStatus(400);
   }
 
   var newNotification = {
     sender: req.user._id,
-    messageId: messageId,
+    message: messageId,
+    user: req.body.userId,
+    chat: chatId,
     read: false,
   };
 
@@ -21,7 +23,7 @@ const sendNotification = asyncHandler(async (req, res) => {
     notification = await notification.populate("sender", "name");
     notification = await notification.populate("message", "content");
 
-    res.json(response);
+    res.json(notification);
   } catch (error) {
     res.status(400);
     throw new Error(error.message);
@@ -30,13 +32,14 @@ const sendNotification = asyncHandler(async (req, res) => {
 
 const allNotifications = asyncHandler(async (req, res) => {
   try {
-    const notification = await Notification.find({
+    const notifications = await Notification.find({
       user: req.user._id,
     })
       .populate("sender", "name")
-      .populate("message");
+      .populate("message")
+      .populate("chat");
 
-    res.json(notification);
+    res.json(notifications);
   } catch (error) {
     res.status(400);
     throw new Error(error.message);
