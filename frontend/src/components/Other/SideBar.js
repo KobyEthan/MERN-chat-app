@@ -136,6 +136,12 @@ const SideBar = () => {
       setSelectedChat(data);
       setLoadingChat(false);
       onClose();
+      notifications.forEach((notif) => {
+        if (notif.chat._id === data._id) {
+          markAsRead(notif._id);
+          deleteNotification(notif._id);
+        }
+      });
     } catch (error) {
       toast({
         title: "Error getting chat",
@@ -194,10 +200,46 @@ const SideBar = () => {
     }
   };
 
+  const deleteNotification = async (notificationId) => {
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
+
+      await axios.delete(`/api/notification/delete/${notificationId}`, config);
+      setNotifications((prev) => prev.filter((n) => n._id !== notificationId));
+    } catch (error) {
+      console.error("Error deleting notification:", error);
+      toast({
+        title: "Error Occurred!",
+        description: "Failed to delete notification",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }
+  };
+
   const handleNotificationClick = async (notif) => {
-    setSelectedChat(notif.chat);
-    setNotifications(notifications.filter((n) => n !== notif));
-    await markAsRead(notif._id);
+    try {
+      setSelectedChat(notif.chat);
+      setNotifications(notifications.filter((n) => n._id !== notif._id));
+      await markAsRead(notif._id);
+      await deleteNotification(notif._id);
+    } catch (error) {
+      console.error("Error handling notification:", error);
+      toast({
+        title: "Error Occurred!",
+        description: "Failed to handle notification click",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }
   };
 
   return (
@@ -237,9 +279,8 @@ const SideBar = () => {
                   key={notif._id}
                   onClick={() => handleNotificationClick(notif)}
                 >
-                  {console.log(notif.message.chat)}
-                  {notif.message.chat.isGroupChat
-                    ? `New Message in ${notif.message.chat.chatName}`
+                  {notif.chat.isGroupChat
+                    ? `New Message in ${notif.chat.chatName}`
                     : `New Message from ${notif.sender.name}`}
                 </MenuItem>
               ))}
