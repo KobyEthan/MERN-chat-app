@@ -36,9 +36,8 @@ const markAsRead = asyncHandler(async (req, res) => {
 const deleteNotification = asyncHandler(async (req, res) => {
   try {
     const notification = await Notification.findById(req.params.notificationId);
-    console.log(notification);
     if (notification) {
-      await notification.remove();
+      await notification.deleteOne({ _id: req.params.notificationId });
       res.json({ message: "Notification removed" });
     } else {
       console.log("Notification not found");

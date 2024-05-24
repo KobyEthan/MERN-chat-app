@@ -228,7 +228,6 @@ const SideBar = () => {
       setSelectedChat(notif.chat);
       setNotifications(notifications.filter((n) => n._id !== notif._id));
       await markAsRead(notif._id);
-      await deleteNotification(notif._id);
     } catch (error) {
       console.error("Error handling notification:", error);
       toast({
@@ -258,8 +257,8 @@ const SideBar = () => {
           placement="bottom-end"
         >
           <Button variant="ghost" onClick={onOpen}>
-            <i className="fas fa-search" style={{ color: "white" }}></i>
-            <Text display={{ base: "none", md: "flex" }} color={"white"} px="4">
+            <i className="fas fa-search" style={{ color: "black" }}></i>
+            <Text display={{ base: "none", md: "flex" }} color={"black"} px="4">
               Search Users
             </Text>
           </Button>
