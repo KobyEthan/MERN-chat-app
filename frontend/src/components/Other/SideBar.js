@@ -136,12 +136,21 @@ const SideBar = () => {
       setSelectedChat(data);
       setLoadingChat(false);
       onClose();
-      notifications.forEach((notif) => {
-        if (notif.chat._id === data._id) {
-          markAsRead(notif._id);
-          deleteNotification(notif._id);
-        }
-      });
+
+      const chatNotifications = notifications.filter(
+        (notif) => notif.chat._id === data._id
+      );
+      console.log(chatNotifications);
+
+      for (const notif of chatNotifications) {
+        await markAsRead(notif._id);
+      }
+
+      setNotifications((prevNotifications) =>
+        prevNotifications.filter(
+          (notif) => !chatNotifications.some((n) => n._id === notif._id)
+        )
+      );
     } catch (error) {
       toast({
         title: "Error getting chat",
@@ -161,9 +170,10 @@ const SideBar = () => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-
       const { data } = await axios.get("/api/notification", config);
-      setNotifications(data);
+
+      const unreadNotifications = data.filter((notif) => !notif.read);
+      setNotifications(unreadNotifications);
     } catch (error) {
       console.error("Error fetching notifications:", error);
       toast({
@@ -200,28 +210,28 @@ const SideBar = () => {
     }
   };
 
-  const deleteNotification = async (notificationId) => {
-    try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      };
+  // const deleteNotification = async (notificationId) => {
+  //   try {
+  //     const config = {
+  //       headers: {
+  //         Authorization: `Bearer ${user.token}`,
+  //       },
+  //     };
 
-      await axios.delete(`/api/notification/delete/${notificationId}`, config);
-      setNotifications((prev) => prev.filter((n) => n._id !== notificationId));
-    } catch (error) {
-      console.error("Error deleting notification:", error);
-      toast({
-        title: "Error Occurred!",
-        description: "Failed to delete notification",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-        position: "bottom-left",
-      });
-    }
-  };
+  //     await axios.delete(`/api/notification/delete/${notificationId}`, config);
+  //     setNotifications((prev) => prev.filter((n) => n._id !== notificationId));
+  //   } catch (error) {
+  //     console.error("Error deleting notification:", error);
+  //     toast({
+  //       title: "Error Occurred!",
+  //       description: "Failed to delete notification",
+  //       status: "error",
+  //       duration: 5000,
+  //       isClosable: true,
+  //       position: "bottom-left",
+  //     });
+  //   }
+  // };
 
   const handleNotificationClick = async (notif) => {
     try {

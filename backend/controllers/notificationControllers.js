@@ -33,20 +33,20 @@ const markAsRead = asyncHandler(async (req, res) => {
   }
 });
 
-const deleteNotification = asyncHandler(async (req, res) => {
-  try {
-    const notification = await Notification.findById(req.params.notificationId);
-    if (notification) {
-      await notification.deleteOne({ _id: req.params.notificationId });
-      res.json({ message: "Notification removed" });
-    } else {
-      console.log("Notification not found");
-      res.status(404).json({ message: "Notification not found" });
-    }
-  } catch (error) {
-    console.error("Error deleting notification:", error);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-});
+// const deleteNotification = asyncHandler(async (req, res) => {
+//   try {
+//     const notification = await Notification.findById(req.params.notificationId);
+//     if (notification) {
+//       await notification.deleteOne({ _id: req.params.notificationId });
+//       res.json({ message: "Notification removed" });
+//     } else {
+//       console.log("Notification not found");
+//       res.status(404).json({ message: "Notification not found" });
+//     }
+//   } catch (error) {
+//     console.error("Error deleting notification:", error);
+//     res.status(500).json({ message: "Internal Server Error" });
+//   }
+// });
 
-module.exports = { allNotifications, markAsRead, deleteNotification };
+module.exports = { allNotifications, markAsRead };
