@@ -196,7 +196,6 @@ const SideBar = () => {
       };
 
       await axios.put("/api/notification/read", { notificationId }, config);
-      setNotifications((prev) => prev.filter((n) => n._id !== notificationId));
     } catch (error) {
       console.error("Error marking notification as read:", error);
       toast({
@@ -248,6 +247,7 @@ const SideBar = () => {
         isClosable: true,
         position: "bottom-left",
       });
+      fetchNotifications();
     }
   };
 

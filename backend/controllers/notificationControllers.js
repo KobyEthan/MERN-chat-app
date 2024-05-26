@@ -26,7 +26,6 @@ const markAsRead = asyncHandler(async (req, res) => {
     }
 
     await Notification.findByIdAndUpdate(notificationId, { read: true });
-    res.json({ message: "Notification marked as read" });
   } catch (error) {
     res.status(400);
     throw new Error(error.message);
