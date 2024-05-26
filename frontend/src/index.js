@@ -1,17 +1,17 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom";
 import App from "./App";
 import { ChakraProvider } from "@chakra-ui/react";
-import { BrowserRouter } from "react-router-dom";
 import ChatProvider from "./Context/ChatProvider";
+import { BrowserRouter } from "react-router-dom";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-  <BrowserRouter>
-    <ChatProvider>
-      <ChakraProvider>
+ReactDOM.render(
+  <ChakraProvider>
+    <BrowserRouter>
+      <ChatProvider>
         <App />
-      </ChakraProvider>
-    </ChatProvider>
-  </BrowserRouter>
+      </ChatProvider>
+    </BrowserRouter>
+  </ChakraProvider>,
+  document.getElementById("root")
 );

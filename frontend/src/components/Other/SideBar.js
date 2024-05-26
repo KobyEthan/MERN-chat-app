@@ -302,6 +302,8 @@ const SideBar = () => {
                 cursor="pointer"
                 name={user.name}
                 src={user.profilePic}
+                ml="5px"
+                mr="8px"
               />
             </MenuButton>
             <MenuList>
