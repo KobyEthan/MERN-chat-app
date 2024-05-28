@@ -1,5 +1,5 @@
 ## Please Note: 
-This Project is not done, I am working on some bugs and polishing it up. If you'd like to see where I'm at, here are the steps:
+I am having trouble deploying the project. If you'd like to see where I'm at, here are the steps:
 ## Run Locally
 
 Clone the project
