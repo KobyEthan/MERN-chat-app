@@ -1,4 +1,4 @@
-import { ChatState } from "../Context/ChatProvider";
+import { ChatState } from "../context/ChatProvider";
 import { Box } from "@chakra-ui/react";
 import SideBar from "../components/Other/SideBar";
 import MyChats from "../components/MyChats";
