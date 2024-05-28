@@ -1,5 +1,5 @@
-## Please Note: 
-I am having trouble deploying the project. If you'd like to see where I'm at, here are the steps:
+## Deployed Project:
+https://mern-chat-app-1r7h.onrender.com
 ## Run Locally
 
 Clone the project
