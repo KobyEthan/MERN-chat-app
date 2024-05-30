@@ -29,7 +29,7 @@ import ChatLoading from "../ChatLoading";
 import UserListItem from "../UserAvatar/UserListItem";
 import io from "socket.io-client";
 
-const ENDPOINT = "http://localhost:5000";
+const ENDPOINT = "https://mern-chat-app-1r7h.onrender.com"; // https://localhost:5000 if not deployed
 let socket;
 
 const SideBar = () => {

@@ -20,7 +20,7 @@ app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
 app.use("/api/notification", notificationRoutes);
 
-// production
+// Deployment
 const _dirname1 = path.resolve();
 
 if (process.env.NODE_ENV === "production") {
@@ -34,7 +34,7 @@ if (process.env.NODE_ENV === "production") {
     res.send("API is running");
   });
 }
-// production
+// Deployment
 
 app.use(notFound);
 app.use(errorHandler);
@@ -46,7 +46,10 @@ const server = app.listen(port, () => {
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
-    origin: "http://localhost:3000",
+    origin:
+      process.env.NODE_ENV === "production"
+        ? "https://mern-chat-app-1r7h.onrender.com"
+        : "http://localhost:3000",
   },
 });
 
